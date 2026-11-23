@@ -84,6 +84,7 @@ class TitleState extends MusicBeatState
 	public function getIntroTextShit():Array<Array<String>>
 	{
 		var fullText:String = Assets.getText(Paths.txt('titlescreen/introText'));
+		if (fullText == null) fullText = "Friday Night Dustin'--Enable mods or add titlescreen/introText.txt";
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];
