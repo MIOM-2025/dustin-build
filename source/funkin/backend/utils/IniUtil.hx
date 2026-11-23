@@ -6,6 +6,7 @@ class IniUtil {
 
 	public static function parseString(data:String):Map<String, Map<String, String>> {
 		var res:Map<String, Map<String, String>> = [];
+		if (data == null) return res;
 		parseStringToMap(res, data);
 		return res;
 	}
