@@ -277,8 +277,8 @@ final class TranslationUtil
 			//}
 
 			parseXml(langNode, prefix);
-		#end
 		}
+		#end
 
 		for(pair in translations) {
 			var node = pair.node;

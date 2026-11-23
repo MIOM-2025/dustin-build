@@ -534,8 +534,8 @@ class CharacterEditor extends UIState {
 					} catch (e) {
 						trace('ERROR COMPLETING UNDO: $e');
 					};
-				#end
 				}
+				#end
 			case CAnimCreate(animID, animData):
 				characterAnimsWindow.deleteAnimation(characterAnimsWindow.buttons.members[animID], false);
 			case CAnimDelete(animID, animData):
