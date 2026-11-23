@@ -65,7 +65,9 @@ class Main extends Sprite
 
 	public static function preInit() {
 		funkin.backend.utils.NativeAPI.registerAsDPICompatible();
+		#if !html5
 		funkin.backend.system.CommandLineHandler.parseCommandLine(Sys.args());
+		#end
 		funkin.backend.system.Main.fixWorkingDirectory();
 	}
 

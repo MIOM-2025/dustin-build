@@ -70,11 +70,11 @@
 
 	<!-- Comment this out to prevent unused classes from being compiled.
 		 Reduces compilation time at the cost of limited HScript flexibility. !-->
-	<define name="COMPILE_ALL_CLASSES" unless="STRIPPED_COMPILE" />
+	<define name="COMPILE_ALL_CLASSES" unless="STRIPPED_COMPILE || web" />
 
 	<!-- Comment this out to prevent extending classes in hscript.
 		 Reduces compilation time at the cost of limited HScript flexibility. !-->
-	<define name="CUSTOM_CLASSES" unless="STRIPPED_COMPILE" />
+	<define name="CUSTOM_CLASSES" unless="STRIPPED_COMPILE || web" />
 
 	<!-- Comment this out to disable multithreading !-->
 	<haxedef name="ALLOW_MULTITHREADING" unless="web || flash" />
