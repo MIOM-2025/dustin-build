@@ -37,6 +37,13 @@ jobs:
             libgl1 libegl1 libx11-6 libxext6 libxrandr2 libxi6 libxcursor1 \
             libxinerama1 libxxf86vm1
 
+      - name: Fetch CNE default assets
+        run: |
+          git clone --depth 1 https://github.com/CodenameCrew/CodenameEngine.git /tmp/cne
+          mkdir -p assets
+          rsync -a --ignore-existing --exclude='*.ogg' --exclude='*.mp3' --exclude='*.wav' --exclude='*.mp4' --exclude='*.webm' /tmp/cne/assets/ assets/ || true
+          du -sh assets || true
+
       - name: Install libraries
         run: haxe -cp commandline -D analyzer-optimize --run Main setup -s
 
