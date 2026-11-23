@@ -17,8 +17,12 @@ import funkin.game.Character;
 import haxe.xml.Access;
 import haxe.xml.Printer;
 import funkin.editors.ui.UIImageExplorer.ImageSaveData;
+	#if sys
 import sys.FileSystem;
+	#end
+	#if sys
 import sys.io.File;
+	#end
 
 class CharacterEditor extends UIState {
 	static var __character:String;

@@ -5,7 +5,9 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import funkin.backend.assets.ModsFolder;
 import haxe.io.Path;
+	#if sys
 import sys.FileSystem;
+	#end
 
 class ModSwitchMenu extends MusicBeatSubstate {
 	var mods:Array<String> = [];

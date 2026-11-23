@@ -1,7 +1,11 @@
 package funkin.backend.system;
 
+	#if sys
 import sys.io.File;
+	#end
+	#if sys
 import sys.FileSystem;
+	#end
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;

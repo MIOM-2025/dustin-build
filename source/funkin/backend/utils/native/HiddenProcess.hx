@@ -23,7 +23,9 @@ package funkin.backend.utils.native;
 * DEALINGS IN THE SOFTWARE.
 */
 
+	#if cpp
 import cpp.NativeProcess;
+	#end
 
 class Stdin extends haxe.io.Output {
 	var p:Dynamic;

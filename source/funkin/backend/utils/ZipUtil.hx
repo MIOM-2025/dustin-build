@@ -15,9 +15,15 @@ import haxe.zip.Compress;
 import haxe.zip.Tools;
 import haxe.zip.Uncompress;
 import haxe.zip.Writer;
+	#if sys
 import sys.FileSystem;
+	#end
+	#if sys
 import sys.io.File;
+	#end
+	#if sys
 import sys.thread.Thread;
+	#end
 
 using StringTools;
 

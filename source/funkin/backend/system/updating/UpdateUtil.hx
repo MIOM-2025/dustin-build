@@ -5,9 +5,15 @@ import funkin.backend.system.github.GitHubRelease;
 
 import lime.app.Application;
 
+	#if sys
 import sys.thread.Mutex;
+	#end
+	#if sys
 import sys.thread.Thread;
+	#end
+	#if sys
 import sys.FileSystem;
+	#end
 
 import haxe.io.Path;
 

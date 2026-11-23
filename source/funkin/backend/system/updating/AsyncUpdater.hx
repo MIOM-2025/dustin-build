@@ -9,9 +9,15 @@ import openfl.events.ProgressEvent;
 import openfl.net.URLLoader;
 import openfl.net.URLRequest;
 import openfl.utils.ByteArray;
+	#if sys
 import sys.FileSystem;
+	#end
+	#if sys
 import sys.io.File;
+	#end
+	#if sys
 import sys.io.FileOutput;
+	#end
 
 class AsyncUpdater {
 	// NON ASYNC STUFF

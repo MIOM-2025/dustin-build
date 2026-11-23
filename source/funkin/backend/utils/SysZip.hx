@@ -5,8 +5,12 @@ import haxe.io.Input;
 import haxe.zip.Entry;
 import haxe.zip.InflateImpl;
 import haxe.zip.Reader;
+	#if sys
 import sys.io.File;
+	#end
+	#if sys
 import sys.io.FileInput;
+	#end
 
 /**
  * Class that extends Reader allowing you to load ZIP entries without blowing your RAM up!!

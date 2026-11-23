@@ -9,8 +9,12 @@ import haxe.Json;
 import haxe.io.Bytes;
 import haxe.io.Path;
 import openfl.display.BitmapData;
+	#if sys
 import sys.FileSystem;
+	#end
+	#if sys
 import sys.io.File;
+	#end
 
 using StringTools;
 using funkin.backend.utils.BitmapUtil;
