@@ -52,7 +52,7 @@ jobs:
 
       - name: Patch lime html5 backend
         run: |
-          F=$(find .haxelib/lime -path '*backend/html5/HTML5Application.hx' | head -1)
+          F=$(find .haxelib/lime -path '*backend/html5/HTML5Application.hx' | grep '/git/' | head -1)
           echo "patching $F"
           if [ -n "$F" ]; then
             python3 -c "import sys;p=sys.argv[1];s=open(p).read();s2=s.replace('parent.onUpdate.dispatch(deltaTime);','parent.onUpdate.dispatch(Std.int(deltaTime));');open(p,'w').write(s2);print('PATCHED' if s!=s2 else 'NO_MATCH')" "$F"
