@@ -1,0 +1,68 @@
+name: HTML5 Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/html5.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Init submodules
+        run: git submodule update --init --recursive
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@v2
+        with:
+          haxe-version: 4.3.7
+
+      - name: Install system deps for lime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq libsdl2-2.0-0 libopenal1 libvorbis0a libvorbisfile3 \
+            libgl1 libegl1 libx11-6 libxext6 libxrandr2 libxi6 libxcursor1 \
+            libxinerama1 libxxf86vm1
+
+      - name: Install libraries
+        run: haxe -cp commandline -D analyzer-optimize --run Main setup -s
+
+      - name: Fix lime ndll
+        run: |
+          haxelib install lime 8.1.2 --always --quiet || true
+          echo "--- lime dirs ---"
+          ls .haxelib/lime/ || true
+          REL=$(ls -d .haxelib/lime/*/ 2>/dev/null | grep -v '/git/' | head -1)
+          echo "release lime: $REL"
+          if [ -n "$REL" ] && [ -d "$REL/ndll" ]; then
+            mkdir -p .haxelib/lime/git/ndll
+            cp -rn "$REL/ndll/." .haxelib/lime/git/ndll/ || true
+          fi
+          haxelib set lime git
+          ls .haxelib/lime/git/ndll/Linux64/ 2>/dev/null || true
+
+      - name: Build HTML5
+        run: haxelib run lime build html5
+
+      - name: Show output
+        if: always()
+        run: |
+          find export -maxdepth 4 -type d 2>/dev/null | head -40
+          du -sh export/release/html5/bin 2>/dev/null || true
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dustin-html5
+          path: export/release/html5/bin/
+          if-no-files-found: warn
