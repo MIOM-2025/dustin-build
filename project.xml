@@ -161,6 +161,7 @@
 	<section unless="TEST_BUILD">
 		<assets path="assets/"    rename="assets"	exclude="*.ogg" if="web"/>
 		<assets path="assets/"    rename="assets"	exclude="*.mp3" unless="web"/>
+		<assets path="mods/dustin/assets/" rename="assets" exclude="*.ogg,*.mp3,*.wav,*.mp4,*.webm" if="web"/>
 
 		<!-- TODO: make it copy this manually, instead of using assets node, so it doesn't manually check for fonts -->
 		<assets path='mods' rename='mods' embed='false' if='!web' />
