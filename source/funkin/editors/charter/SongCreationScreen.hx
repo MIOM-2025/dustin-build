@@ -370,6 +370,9 @@ class SongCreationScreen extends UISubstateWindow {
 			try switch(engineDropdown.index)
 			{
 				case 2 /*"V-Slice Project (.fnfc)"*/:
+					#if html5
+					throw "V-Slice import is not supported on web";
+					#else
 					var files:Map<String, Any> = [];
 					for (field in new ZipReader(new BytesInput(importChartFile.file)).read()) {
 						var fileName = field.fileName;
@@ -377,6 +380,7 @@ class SongCreationScreen extends UISubstateWindow {
 						files.set(fileName, fileContent);
 					}
 					saveFromVSlice(files);
+					#end
 				case 1 /*"V-Slice"*/:
 					var songId = importIdTextBox.label.text;
 					var files:Map<String, Any> = [];

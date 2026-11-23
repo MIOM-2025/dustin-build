@@ -254,6 +254,7 @@ final class TranslationUtil
 
 		// todo make it load the default languages in a second string map
 
+		#if !html5
 		for(mod in ModsFolder.getLoadedModsLibs(true)) for(file in mod.getFiles("assets/" + mainPath).sortAlphabetically().map((v)->'$mainPath/$v')) {
 			if(Path.extension(file).toLowerCase() != "xml") continue;
 
@@ -276,6 +277,7 @@ final class TranslationUtil
 			//}
 
 			parseXml(langNode, prefix);
+		#end
 		}
 
 		for(pair in translations) {

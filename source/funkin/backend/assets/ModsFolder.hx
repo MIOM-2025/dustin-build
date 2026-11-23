@@ -51,9 +51,11 @@ class ModsFolder {
 	 * Initializes `mods` folder.
 	 */
 	public static function init() {
+		#if !html5
 		if (!FileSystem.exists(assetsPath)) FileSystem.createDirectory(assetsPath);
 		if (!FileSystem.exists(modsPath)) FileSystem.createDirectory(modsPath);
 		if (!FileSystem.exists(addonsPath)) FileSystem.createDirectory(addonsPath);
+		#end
 		if(!getModsList().contains(Options.lastLoadedMod)) {
 			if(Options.lastLoadedMod != null)
 				Logs.warn("Mod \"" + Options.lastLoadedMod + "\" not found in mods list, switching to base game!");

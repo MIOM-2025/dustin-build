@@ -50,6 +50,15 @@ jobs:
           haxelib set lime git
           ls .haxelib/lime/git/ndll/Linux64/ 2>/dev/null || true
 
+      - name: Patch lime html5 backend
+        run: |
+          F=$(find .haxelib/lime -path '*backend/html5/HTML5Application.hx' | head -1)
+          echo "patching $F"
+          if [ -n "$F" ]; then
+            sed -i 's/parent.onUpdate.dispatch(deltaTime);/parent.onUpdate.dispatch(Std.int(deltaTime));/' "$F" || true
+            grep -n "dispatch(Std.int" "$F" || true
+          fi
+
       - name: Build HTML5
         run: haxelib run lime build html5
 

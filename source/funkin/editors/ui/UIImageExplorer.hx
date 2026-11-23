@@ -66,6 +66,7 @@ class UIImageExplorer extends UIFileExplorer {
 		directoryBG.members.push(directoryTextBox);
 
 		if (image != null) {
+			#if !html5
 			var fullImagePath:String = '${Path.normalize(Sys.getCwd())}/${Paths.image(image)}'.replace('/', '\\');
 			var noExt = Path.withoutExtension(fullImagePath);
 			if (FileSystem.exists('$noExt\\spritemap1.png'))
@@ -73,6 +74,7 @@ class UIImageExplorer extends UIFileExplorer {
 	
 			if (FileSystem.exists(fullImagePath))
 				loadFile(fullImagePath);
+			#end
 		}
 
 		allowDirectories = CoolUtil.isMapEmpty(imageFiles); __firstLoad = false;
