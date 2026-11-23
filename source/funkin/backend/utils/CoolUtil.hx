@@ -1221,9 +1221,11 @@ final class CoolUtil
 	 * @return Bool 
 	 */
 	public static function imageHasFrameData(path:String):String {
+		#if sys
 		if (FileSystem.exists(Path.withExtension(path, "xml"))) return "xml";
 		if (FileSystem.exists(Path.withExtension(path, "txt"))) return "txt";
 		if (FileSystem.exists(Path.withExtension(path, "json"))) return "json";
+		#end
 
 		return null;
 	}

@@ -95,6 +95,10 @@ class UIImageExplorer extends UIFileExplorer {
 
 	@:noCompletion var __firstLoad:Bool = true;
 	public function uploadImage(filePath:String, file:Bytes) {
+		#if html5
+		return;
+		#end
+		#if !html5
 		__resetData();
 
 		var imagePath:Dynamic = Path.normalize(filePath);
@@ -299,6 +303,7 @@ class UIImageExplorer extends UIFileExplorer {
 		if (directoryButton.visible) fileText.fieldWidth -= directoryButton.bWidth + 12;
 
 		members.push(directoryBG); __firstLoad = false;
+		#end
 	}
 
 	public var saveData:ImageSaveData = null;
