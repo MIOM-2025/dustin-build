@@ -1,5 +1,8 @@
 name: HTML5 Build
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   push:
@@ -67,6 +70,15 @@ jobs:
         run: |
           find export -maxdepth 4 -type d 2>/dev/null | head -40
           du -sh export/release/html5/bin 2>/dev/null || true
+
+      - name: Deploy to gh-pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: export/release/html5/bin
+          publish_branch: gh-pages
+          force_orphan: true
 
       - name: Upload artifact
         if: always()
