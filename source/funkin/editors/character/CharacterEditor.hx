@@ -595,6 +595,7 @@ class CharacterEditor extends UIState {
 				characterPropertiesWindow.editCharacterInfo(newInfo, false);
 			case CCharEditSprite(fileID):
 				var cneisdPath:String = './.temp/__redo__${Type.getClassName(Type.getClass(FlxG.state))}__${fileID}.cneisd';
+				#if !html5
 				if (FileSystem.exists(cneisdPath)) {
 					try {
 						var cneisdData:String = File.getContent(cneisdPath);
@@ -607,6 +608,7 @@ class CharacterEditor extends UIState {
 						trace('ERROR COMPLETING UNDO: $e');
 					};
 				}
+				#end
 			case CAnimCreate(animID, animData):
 				characterAnimsWindow.addAnimation(animData, animID, false);
 				playAnimation(animData.name);
