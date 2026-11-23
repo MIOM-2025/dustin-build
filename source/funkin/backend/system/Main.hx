@@ -35,7 +35,7 @@ class Main extends Sprite
 {
 	public static var instance:Main;
 
-	public static var modToLoad:String = "dustin";
+	public static var modToLoad:String = #if web "" #else "dustin" #end;
 	public static var forceGPUOnlyBitmapsOff:Bool = #if (desktop || mobile) false #else true #end;
 	public static var noTerminalColor:Bool = false;
 	public static var verbose:Bool = false;

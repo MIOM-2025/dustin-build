@@ -2,20 +2,20 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
-		title="Friday Night Dustin'" main="funkin.backend.system.Main"
-		file="dustin" packageName="com.chezzarcat.dustin"
-		package="com.chezzarcat.dustin"
-		version="1.0.1" company="ChezzarCat" />
+		title="Codename Engine Web" main="funkin.backend.system.Main"
+		file="cneweb" packageName="com.codename.web"
+		package="com.codename.web"
+		version="1.0.1" company="Codename" />
 
-	<define name="DUSTIN_CUSTOM_BUILD"/>
+	<define name="CNE_WEB_BUILD"/>
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
 	-->
-	<haxedef name="SAVE_PATH" value="ChezzarCat/"/>
+	<haxedef name="SAVE_PATH" value="CodenameEngine/"/>
 	<haxedef name="SAVE_NAME" value="save-default"/>
 
-	<haxedef name="SAVE_OPTIONS_PATH" value="ChezzarCat/"/>
+	<haxedef name="SAVE_OPTIONS_PATH" value="CodenameEngine/"/>
 	<haxedef name="SAVE_OPTIONS_NAME" value="options"/>
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
