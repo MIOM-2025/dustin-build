@@ -160,9 +160,11 @@ class TouchPad extends MobileInputManager implements IMobileControls
 			#end
 				buttonLabelGraphicPath = defaultPath;
 
+			#if !html5
 			if (FileSystem.exists(buttonLabelGraphicPath))
 				frames = FlxGraphic.fromBitmapData(BitmapData.fromBytes(File.getBytes(buttonLabelGraphicPath)));
 			else
+			#end
 				frames = FlxGraphic.fromBitmapData(Assets.getBitmapData(buttonLabelGraphicPath));
 
 			button.antialiasing = Options.antialiasing;

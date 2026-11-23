@@ -10,7 +10,9 @@ import haxe.io.Bytes;
 import haxe.io.Path;
 import openfl.display.BitmapData;
 	#if sys
+#if !html5
 import sys.FileSystem;
+#end
 	#end
 	#if sys
 import sys.io.File;
@@ -324,13 +326,17 @@ class UIImageExplorer extends UIFileExplorer {
 		if (imageData.isAtlas) directory += '/${imageData.imageName}';
 
 		var alreadlyExistingFiles:Array<String> = [];
+		#if !html5
 		for (name => file in imageData.imageFiles)
 			if (FileSystem.exists('$directory/$name'))
 				alreadlyExistingFiles.push('$directory/$name');
+		#end
 
 		function deleteExistingFiles() {
+			#if !html5
 			for (file in alreadlyExistingFiles)
 				FileSystem.deleteFile(file);
+			#end
 			alreadlyExistingFiles = [];
 		}
 

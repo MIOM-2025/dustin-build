@@ -2,7 +2,9 @@ package funkin.backend.utils;
 
 import flixel.sound.FlxSound;
 import lime.media.AudioBuffer;
+#if !html5
 import lime.utils.ArrayBufferView.ArrayBufferIO;
+#end
 import lime.utils.ArrayBuffer;
 
 #if (lime_cffi && lime_vorbis)
@@ -32,6 +34,9 @@ final class AudioAnalyzer {
 	 * @return Byte from the audio buffer with specified position.
 	 */
 	public static function getByte(buffer:ArrayBuffer, position:Int, wordSize:Int):Int {
+		#if html5
+		return 0;
+		#else
 		if (wordSize == 2) return inline ArrayBufferIO.getInt16(buffer, position);
 		else if (wordSize == 3) {
 			var b = inline ArrayBufferIO.getUint16(buffer, position) | (buffer.get(position + 2) << 16);
@@ -40,6 +45,7 @@ final class AudioAnalyzer {
 		}
 		else if (wordSize == 4) return inline ArrayBufferIO.getInt32(buffer, position);
 		else return inline ArrayBufferIO.getUint8(buffer, position) - 128;
+		#end
 	}
 
 	/**

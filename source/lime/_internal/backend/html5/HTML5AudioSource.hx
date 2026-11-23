@@ -222,6 +222,8 @@ class HTML5AudioSource
 		return loops = value;
 	}
 
+	private var loopTime:Float = 0;
+
 	public function getLoopTime():Float {
 		return loopTime;
 	}
