@@ -47,6 +47,18 @@ jobs:
           ls -la assets/data/config/ || true
           du -sh assets || true
 
+      - name: Add music and sounds
+        run: |
+          mkdir -p assets/music assets/sounds
+          BASE=https://raw.githubusercontent.com/CodenameCrew/CodenameEngine/main/assets
+          for f in DISTORTO breakfast freakyMenu gameOver; do
+            [ -f "assets/music/$f.mp3" ] || curl -sL "$BASE/music/$f.mp3" -o "assets/music/$f.mp3" || true
+          done
+          for f in $(curl -s "https://api.github.com/repos/CodenameCrew/CodenameEngine/contents/assets/sounds" | grep -o '"name": *"[^"]*\.mp3"' | cut -d'"' -f4); do
+            [ -f "assets/sounds/$f" ] || curl -sL "$BASE/sounds/$f" -o "assets/sounds/$f" || true
+          done
+          du -sh assets/music assets/sounds assets || true
+
       - name: Install libraries
         run: haxe -cp commandline -D analyzer-optimize --run Main setup -s
 
