@@ -231,9 +231,29 @@ class TitleState extends MusicBeatState
 
 	public var titleSprites:Map<String, FlxSprite> = [];
 
+	public static function getTextSync(path:String):String {
+		var text:String = Assets.getText(path);
+		#if web
+		if (text == null) {
+			try {
+				var xhr = new js.html.XMLHttpRequest();
+				xhr.open('GET', path, false);
+				xhr.send();
+				if (xhr.status == 200 || xhr.status == 0) text = xhr.responseText;
+			} catch (e:Dynamic) {}
+		}
+		#end
+		return text;
+	}
+
 	public function loadXML() {
 		try {
-			xml = new Access(Xml.parse(Assets.getText(Paths.xml('titlescreen/titlescreen'))).firstElement());
+			var xmlText:String = getTextSync(Paths.xml('titlescreen/titlescreen'));
+			if (xmlText == null || xmlText.length == 0) {
+				Logs.warn('titlescreen XML missing, using defaults');
+				return;
+			}
+			xml = new Access(Xml.parse(xmlText).firstElement());
 			if (xml.hasNode.intro) {
 				titleLines = [];
 				if (xml.node.intro.has.length) titleLength = Std.parseInt(xml.node.intro.att.length).getDefault(16);
