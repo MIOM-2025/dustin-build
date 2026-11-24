@@ -100,6 +100,12 @@ class Main extends Sprite
 
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
 
+		#if web
+		try {
+			FlxG.renderMethod = flixel.FlxRenderMethod.DRAW_TILES;
+		} catch (e:Dynamic) {}
+		#end
+
 		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
 
 		#if !web
