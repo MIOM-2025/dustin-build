@@ -79,14 +79,25 @@ jobs:
           print('FLXG_PATCHED')
           PYEOF
 
-      - name: Inspect web context creation
+      - name: Patch lime web context creation
         run: |
-          echo '--- lime html5 dir ---'
-          ls .haxelib/lime/git/src/lime/_internal/backend/html5/ 2>/dev/null || true
-          echo '--- getContext in lime ---'
-          grep -rn 'getContext' .haxelib/lime/git/src/ 2>/dev/null | head -12 || true
-          echo '--- getContext in openfl ---'
-          grep -rn 'getContext' .haxelib/openfl/git/src/ 2>/dev/null | head -12 || true
+          F=.haxelib/lime/git/src/lime/_internal/backend/html5/HTML5Window.hx
+          echo '--- source 325-365 ---'
+          sed -n '325,365p' "$F"
+          python3 - <<'PYEOF'
+          p = '.haxelib/lime/git/src/lime/_internal/backend/html5/HTML5Window.hx'
+          s = open(p, encoding='utf-8').read()
+          old = "webgl = cast canvas.getContext(name, options);"
+          new = ("webgl = cast canvas.getContext(name, options);\n"
+                 "\t\t\t\tif (webgl == null) webgl = cast canvas.getContext(name);\n"
+                 "\t\t\t\tif (webgl == null) webgl = cast canvas.getContext(name, { alpha: true, depth: false, stencil: true, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: false });")
+          if old in s:
+              s = s.replace(old, new, 1)
+              open(p, 'w', encoding='utf-8').write(s)
+              print('WINDOW_PATCHED')
+          else:
+              print('NO_MATCH')
+          PYEOF
 
       - name: Patch flixel null frame in draw
         run: |
