@@ -79,6 +79,12 @@ jobs:
           print('FLXG_PATCHED')
           PYEOF
 
+      - name: Inspect lime web context creation
+        run: |
+          F=$(find .haxelib/lime -path '*backend/html5/HTML5Renderer.hx' | grep '/git/' | head -1)
+          echo "file=$F"
+          grep -n 'getContext\|useHardware\|webgl' "$F" | head -25 || true
+
       - name: Patch flixel null frame in draw
         run: |
           python3 - <<'PYEOF'
