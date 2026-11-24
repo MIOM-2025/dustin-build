@@ -37,8 +37,15 @@ jobs:
             libgl1 libegl1 libx11-6 libxext6 libxrandr2 libxi6 libxcursor1 \
             libxinerama1 libxxf86vm1
 
-      - name: Check assets
-        run: du -sh assets || true
+      - name: Add missing config files
+        run: |
+          mkdir -p assets/data/config
+          BASE=https://raw.githubusercontent.com/CodenameCrew/CodenameEngine/main/assets/data/config
+          for f in menuItems.txt freeplaySonglist.txt discord.json; do
+            curl -sL "$BASE/$f" -o "assets/data/config/$f" || true
+          done
+          ls -la assets/data/config/ || true
+          du -sh assets || true
 
       - name: Install libraries
         run: haxe -cp commandline -D analyzer-optimize --run Main setup -s
