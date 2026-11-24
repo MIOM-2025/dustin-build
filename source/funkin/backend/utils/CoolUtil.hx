@@ -545,10 +545,28 @@ final class CoolUtil
 	 * @param path
 	 * @return Array<String>
 	 */
+	@:noUsing public static function getTextSafe(path:String):String
+	{
+		var text:String = Assets.getText(path);
+		#if web
+		if (text == null) {
+			try {
+				var xhr = new js.html.XMLHttpRequest();
+				xhr.open('GET', path, false);
+				xhr.send();
+				if (xhr.status == 200 || xhr.status == 0) text = xhr.responseText;
+			} catch (e:Dynamic) {}
+		}
+		#end
+		return text;
+	}
+
 	@:noUsing public static function coolTextFile(path:String):Array<String>
 	{
+		var raw:String = getTextSafe(path);
+		if (raw == null) return [];
 		var trim:String;
-		return [for(line in Assets.getText(path).split("\n")) if ((trim = line.trim()) != "" && !trim.startsWith("#")) trim];
+		return [for(line in raw.split("\n")) if ((trim = line.trim()) != "" && !trim.startsWith("#")) trim];
 	}
 
 	/**
