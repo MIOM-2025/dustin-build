@@ -69,10 +69,11 @@ class TouchPad extends MobileInputManager implements IMobileControls
 
 		if (DPad != "NONE")
 		{
-			if (!MobileData.dpadModes.exists(DPad))
-				throw 'The touchPad dpadMode "$DPad" doesn\'t exist.';
+			var __dpadData = MobileData.dpadModes.get(DPad);
+			if (__dpadData == null)
+				Logs.warn('touchPad dpadMode "$DPad" missing, skipping');
 
-			for (buttonData in MobileData.dpadModes.get(DPad).buttons)
+			for (buttonData in (__dpadData == null ? [] : __dpadData.buttons))
 			{
 				Reflect.setField(this, buttonData.button,
 					createButton(buttonData.x, buttonData.y, buttonData.graphic, getColorFromString(buttonData.color),
@@ -83,10 +84,11 @@ class TouchPad extends MobileInputManager implements IMobileControls
 
 		if (Action != "NONE")
 		{
-			if (!MobileData.actionModes.exists(Action))
-				throw 'The touchPad actionMode "$Action" doesn\'t exist.';
+			var __actionData = MobileData.actionModes.get(Action);
+			if (__actionData == null)
+				Logs.warn('touchPad actionMode "$Action" missing, skipping');
 
-			for (buttonData in MobileData.actionModes.get(Action).buttons)
+			for (buttonData in (__actionData == null ? [] : __actionData.buttons))
 			{
 				Reflect.setField(this, buttonData.button,
 					createButton(buttonData.x, buttonData.y, buttonData.graphic, getColorFromString(buttonData.color),
