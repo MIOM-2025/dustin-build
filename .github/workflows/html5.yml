@@ -41,7 +41,13 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/CodenameCrew/CodenameEngine.git /tmp/cne
           mkdir -p assets
-          rsync -a --ignore-existing --exclude='*.ogg' --exclude='*.mp3' --exclude='*.wav' --exclude='*.mp4' --exclude='*.webm' /tmp/cne/assets/ assets/ || true
+          for d in data fonts languages shaders mobile music; do
+            [ -d "/tmp/cne/assets/$d" ] && cp -rn "/tmp/cne/assets/$d" assets/ 2>/dev/null || true
+          done
+          mkdir -p assets/images
+          for d in menus icons game; do
+            [ -d "/tmp/cne/assets/images/$d" ] && cp -rn "/tmp/cne/assets/images/$d" assets/images/ 2>/dev/null || true
+          done
           du -sh assets || true
 
       - name: Install libraries
