@@ -86,7 +86,7 @@ class Main extends Sprite
 
 		CrashHandler.init();
 
-		#if !web framerateSprite = new Framerate(); #end
+		framerateSprite = new Framerate();
 
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
 
