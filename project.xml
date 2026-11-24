@@ -153,9 +153,9 @@
 	<source name="source" />
 
 	<define name="PRELOAD_ALL" unless="web" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL || web"/>
 
-	<library name="assets"    preload="true"  if="PRELOAD_ALL"/>
+	<library name="assets"    preload="true"  if="PRELOAD_ALL || web"/>
 	<library name="assets"    preload="false" if="NO_PRELOAD_ALL" />
 
 	<section unless="TEST_BUILD">
