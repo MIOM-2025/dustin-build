@@ -86,6 +86,13 @@ class Main extends Sprite
 
 		CrashHandler.init();
 
+		#if web
+		try {
+			var __c = FlxG.stage.window.context;
+			js.Browser.document.title = 'CNE ctx=' + (__c == null ? 'NULL' : Std.string(__c.type));
+		} catch (e:Dynamic) {}
+		#end
+
 		framerateSprite = new Framerate();
 
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
