@@ -71,7 +71,7 @@ class TouchPad extends MobileInputManager implements IMobileControls
 		{
 			var __dpadData = MobileData.dpadModes.get(DPad);
 			if (__dpadData == null)
-				Logs.warn('touchPad dpadMode "$DPad" missing, skipping');
+				trace('touchPad dpadMode missing, skipping');
 
 			for (buttonData in (__dpadData == null ? [] : __dpadData.buttons))
 			{
@@ -86,7 +86,7 @@ class TouchPad extends MobileInputManager implements IMobileControls
 		{
 			var __actionData = MobileData.actionModes.get(Action);
 			if (__actionData == null)
-				Logs.warn('touchPad actionMode "$Action" missing, skipping');
+				trace('touchPad actionMode missing, skipping');
 
 			for (buttonData in (__actionData == null ? [] : __actionData.buttons))
 			{
