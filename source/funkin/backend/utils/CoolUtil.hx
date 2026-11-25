@@ -455,12 +455,33 @@ final class CoolUtil
 	 * Plays the main menu theme.
 	 * @param fadeIn
 	 */
+	#if web
+	public static var __webAudioUnlocked:Bool = false;
+	public static var __webAudioWaiting:Bool = false;
+	#end
+
 	@:noUsing public static function playMenuSong(fadeIn:Bool = false) {
+		#if web
+		if (!__webAudioUnlocked) {
+			if (!__webAudioWaiting) {
+				__webAudioWaiting = true;
+				try {
+					js.Browser.document.addEventListener('pointerdown', function() {
+						__webAudioUnlocked = true;
+						try { playMenuSong(fadeIn); } catch (e:Dynamic) {}
+					}, {once: true});
+				} catch (e:Dynamic) {}
+			}
+			return;
+		}
+		#end
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)
 		{
-			playMusic(Paths.music(Flags.DEFAULT_MENU_MUSIC), true, fadeIn ? 0 : 1, true, 102);
-			if (fadeIn)
-				FlxG.sound.music.fadeIn(4, 0, 0.7);
+			try {
+				playMusic(Paths.music(Flags.DEFAULT_MENU_MUSIC), true, fadeIn ? 0 : 1, true, 102);
+				if (fadeIn)
+					FlxG.sound.music.fadeIn(4, 0, 0.7);
+			} catch (e:Dynamic) { trace('menu music failed'); }
 		}
 	}
 

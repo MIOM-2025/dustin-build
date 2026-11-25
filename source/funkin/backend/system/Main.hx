@@ -86,28 +86,32 @@ class Main extends Sprite
 
 		CrashHandler.init();
 
-		#if web
-		try {
-			var __c = FlxG.stage.window.context;
-			var __bd = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png');
-			var __msg = 'ctx=' + (__c == null ? 'NULL' : Std.string(__c.type))
-				+ ' bd=' + (__bd == null ? 'null' : (__bd.width + 'x' + __bd.height))
-				+ ' tile=' + FlxG.renderTile + ' blit=' + FlxG.renderBlit;
-			var __doc = js.Browser.document;
-			var __div = __doc.getElementById('cne-diag');
-			if (__div == null) {
-				__div = __doc.createElement('div');
-				__div.id = 'cne-diag';
-				__div.style.cssText = 'position:fixed;top:0;left:0;z-index:999999;background:#000;color:#0f0;font:12px monospace;padding:2px 4px;pointer-events:none';
-				__doc.body.appendChild(__div);
-			}
-			__div.innerText = __msg;
-		} catch (e:Dynamic) {}
-		#end
-
 		framerateSprite = new Framerate();
 
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
+
+		#if web
+		try {
+			haxe.Timer.delay(function() {
+				try {
+					var __c = FlxG.stage.window.context;
+					var __bd = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png');
+					var __msg = 'ctx=' + (__c == null ? 'NULL' : Std.string(__c.type))
+						+ ' bd=' + (__bd == null ? 'null' : (__bd.width + 'x' + __bd.height))
+						+ ' tile=' + FlxG.renderTile + ' blit=' + FlxG.renderBlit;
+					var __doc = js.Browser.document;
+					var __div = __doc.getElementById('cne-diag');
+					if (__div == null) {
+						__div = __doc.createElement('div');
+						__div.id = 'cne-diag';
+						__div.style.cssText = 'position:fixed;top:0;left:0;z-index:999999;background:#000;color:#0f0;font:12px monospace;padding:2px 4px;pointer-events:none';
+						__doc.body.appendChild(__div);
+					}
+					__div.innerText = __msg;
+				} catch (e:Dynamic) {}
+			}, 4000);
+		} catch (e:Dynamic) {}
+		#end
 
 
 		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
