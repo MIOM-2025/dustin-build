@@ -114,7 +114,7 @@ class Main extends Sprite
 							+ ';img=' + (__bd == null ? 'null' : Std.string(__bd.image != null))
 							+ ';txt=' + (__txt == null ? 'null' : Std.string(__txt.length))
 							+ ';rm=' + Std.string(FlxG.renderMethod);
-						js.Browser.window.fetch('/__diag?m=' + js.Browser.window.encodeURIComponent(__rep));
+						js.Browser.window.fetch('/__diag?m=' + StringTools.urlEncode(__rep));
 					} catch (e:Dynamic) {}
 				} catch (e:Dynamic) {}
 			}, 4000);
