@@ -82,6 +82,11 @@ class Framerate extends Sprite {
 		__addCategory(new FlixelInfo());
 		__addCategory(new SystemInfo());
 		__addCategory(new AssetTreeInfo());
+		#if web
+		__addToList(diagField = new openfl.text.TextField());
+		diagField.defaultTextFormat = new TextFormat(textFormat.font, 12, 0x00ff00);
+		diagField.text = 'diag: loading...';
+		#end
 
 		#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 		__addCategory(new StatsInfo());
@@ -112,8 +117,26 @@ class Framerate extends Sprite {
 	}
 
 
+	#if web
+	var diagField:openfl.text.TextField;
+	var diagDone:Bool = false;
+	#end
+
 	var debugAlpha:Float = 0;
 	public override function __enterFrame(t:Int) {
+		#if web
+		if (!diagDone && diagField != null) {
+			diagDone = true;
+			try {
+				var c = FlxG.stage.window.context;
+				var bd = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png');
+				diagField.text = 'ctx=' + (c == null ? 'NULL' : Std.string(c.type))
+					+ ' bd=' + (bd == null ? 'null' : (bd.width + 'x' + bd.height))
+					+ ' tile=' + FlxG.renderTile + ' blit=' + FlxG.renderBlit
+					+ ' rw=' + FlxG.width + 'x' + FlxG.height;
+			} catch (e:Dynamic) { diagField.text = 'diag err ' + e; }
+		}
+		#end
 		alpha = CoolUtil.fpsLerp(alpha, debugMode > 0 ? 1 : 0, 0.5);
 		debugAlpha = CoolUtil.fpsLerp(debugAlpha, debugMode > 1 ? 1 : 0, 0.5);
 
