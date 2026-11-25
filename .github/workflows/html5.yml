@@ -85,7 +85,7 @@ jobs:
           p = paths[0]
           s = open(p, encoding='utf-8').read()
           old = "\t\trenderMethod = switch (stage.window.context.type)\n\t\t{\n\t\t\tcase OPENGL, OPENGLES, WEBGL: DRAW_TILES;\n\t\t\tdefault: BLITTING;\n\t\t}"
-          new = "\t\tvar __ctx = stage.window.context;\n\t\ttrace('CNE_DEBUG ctx=' + (__ctx == null ? 'NULL' : Std.string(__ctx.type)));\n\t\t#if web\n\t\trenderMethod = DRAW_TILES;\n\t\t#else\n\t\tif (__ctx != null)\n\t\t{\n\t\t\trenderMethod = switch (__ctx.type)\n\t\t\t{\n\t\t\t\tcase OPENGL, OPENGLES, WEBGL: DRAW_TILES;\n\t\t\t\tdefault: BLITTING;\n\t\t\t}\n\t\t}\n\t\t#end"
+          new = "\t\tvar __ctx = stage.window.context;\n\t\ttrace('CNE_DEBUG ctx=' + (__ctx == null ? 'NULL' : Std.string(__ctx.type)));\n\t\t#if web\n\t\trenderMethod = BLITTING;\n\t\t#else\n\t\tif (__ctx != null)\n\t\t{\n\t\t\trenderMethod = switch (__ctx.type)\n\t\t\t{\n\t\t\t\tcase OPENGL, OPENGLES, WEBGL: DRAW_TILES;\n\t\t\t\tdefault: BLITTING;\n\t\t\t}\n\t\t}\n\t\t#end"
           assert old in s, 'pattern not found'
           open(p, 'w', encoding='utf-8').write(s.replace(old, new, 1))
           print('FLXG_PATCHED')
