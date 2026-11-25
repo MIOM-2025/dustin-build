@@ -88,44 +88,7 @@ class Main extends Sprite
 
 		framerateSprite = new Framerate();
 
-		#if web
-		var __lib = lime.utils.Assets.getLibrary('default');
-		var __ids:Array<String> = [];
-		if (__lib != null) {
-			try { var __map = @:privateAccess __lib.types; for (__id in __map.keys()) __ids.push(__id); } catch (e:Dynamic) {}
-		}
-		var __pending:Int = __ids.length;
-		var __started:Bool = false;
-		var __startGame = function() {
-			if (__started) return;
-			__started = true;
-			addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
-		};
-		var __one = function() {
-			__pending--;
-			if (__pending <= 0) __startGame();
-		};
-		if (__ids.length == 0) {
-			__startGame();
-		} else {
-			for (__id in __ids) {
-				var __t:String = '';
-				try { __t = @:privateAccess __lib.types.get(__id); } catch (e:Dynamic) {}
-				try {
-					switch (__t) {
-						case 'image': openfl.utils.Assets.loadBitmapData(__id, true, function(_) __one(), function(_) __one());
-						case 'sound', 'music': openfl.utils.Assets.loadSound(__id, true, function(_) __one(), function(_) __one());
-						case 'text', 'binary': openfl.utils.Assets.loadText(__id, true, function(_) __one(), function(_) __one());
-						case 'font': openfl.utils.Assets.loadFont(__id, true, function(_) __one(), function(_) __one());
-						default: __one();
-					}
-				} catch (e:Dynamic) { __one(); }
-			}
-			haxe.Timer.delay(function() { if (!__started) __startGame(); }, 30000);
-		}
-		#else
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
-		#end
 
 		#if web
 		try {
