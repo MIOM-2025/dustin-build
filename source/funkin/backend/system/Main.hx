@@ -88,7 +88,26 @@ class Main extends Sprite
 
 		framerateSprite = new Framerate();
 
+		#if web
+		var __launched:Bool = false;
+		var __launch = function() {
+			if (__launched) return;
+			__launched = true;
+			addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
+		};
+		var __tries:Int = 0;
+		var __poll:Void->Void = null;
+		__poll = function() {
+			if (__launched) return;
+			__tries++;
+			var __ok:Bool = false;
+			try { __ok = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png') != null; } catch (e:Dynamic) {}
+			if (__ok || __tries > 100) __launch() else haxe.Timer.delay(__poll, 100);
+		};
+		haxe.Timer.delay(__poll, 100);
+		#else
 		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
+		#end
 
 		#if web
 		try {
