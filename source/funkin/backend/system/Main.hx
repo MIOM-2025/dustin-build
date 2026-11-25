@@ -88,20 +88,43 @@ class Main extends Sprite
 
 		framerateSprite = new Framerate();
 
-		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
-
 		#if web
-		var __tries:Int = 0;
-		var __poll:Void->Void = null;
-		__poll = function() {
-			__tries++;
-			var __ok:Bool = false;
-			try { __ok = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png') != null; } catch (e:Dynamic) {}
-			if (__ok) {
-				try { FlxG.bitmap.dumpCache(); FlxG.resetState(); trace('CNE_RELOAD assets ready'); } catch (e:Dynamic) {}
-			} else if (__tries < 300) haxe.Timer.delay(__poll, 200);
+		var __lib = lime.utils.Assets.getLibrary('default');
+		var __ids:Array<String> = [];
+		if (__lib != null) {
+			try { for (__id in __lib.types.keys()) __ids.push(__id); } catch (e:Dynamic) {}
+		}
+		var __pending:Int = __ids.length;
+		var __started:Bool = false;
+		var __startGame = function() {
+			if (__started) return;
+			__started = true;
+			addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
 		};
-		haxe.Timer.delay(__poll, 500);
+		var __one = function() {
+			__pending--;
+			if (__pending <= 0) __startGame();
+		};
+		if (__ids.length == 0) {
+			__startGame();
+		} else {
+			for (__id in __ids) {
+				var __t:String = '';
+				try { __t = __lib.types.get(__id); } catch (e:Dynamic) {}
+				try {
+					switch (__t) {
+						case 'image': lime.utils.Assets.loadBitmapData(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'sound', 'music': lime.utils.Assets.loadSound(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'text', 'binary': lime.utils.Assets.loadText(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'font': lime.utils.Assets.loadFont(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						default: __one();
+					}
+				} catch (e:Dynamic) { __one(); }
+			}
+			haxe.Timer.delay(function() { if (!__started) __startGame(); }, 30000);
+		}
+		#else
+		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
 		#end
 
 		#if web
