@@ -113,10 +113,10 @@ class Main extends Sprite
 				try { __t = @:privateAccess __lib.types.get(__id); } catch (e:Dynamic) {}
 				try {
 					switch (__t) {
-						case 'image': openfl.utils.Assets.loadBitmapData(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'sound', 'music': openfl.utils.Assets.loadSound(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'text', 'binary': openfl.utils.Assets.loadText(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'font': openfl.utils.Assets.loadFont(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'image': openfl.utils.Assets.loadBitmapData(__id, true, function(_) __one(), function(_) __one());
+						case 'sound', 'music': openfl.utils.Assets.loadSound(__id, true, function(_) __one(), function(_) __one());
+						case 'text', 'binary': openfl.utils.Assets.loadText(__id, true, function(_) __one(), function(_) __one());
+						case 'font': openfl.utils.Assets.loadFont(__id, true, function(_) __one(), function(_) __one());
 						default: __one();
 					}
 				} catch (e:Dynamic) { __one(); }
