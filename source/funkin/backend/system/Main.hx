@@ -92,7 +92,8 @@ class Main extends Sprite
 
 		#if web
 		try {
-			haxe.Timer.delay(function() {
+			var __sample:Int->Void = null;
+			__sample = function(__n:Int) {
 				try {
 					var __c = FlxG.stage.window.context;
 					var __bd = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png');
@@ -114,10 +115,12 @@ class Main extends Sprite
 							+ ';img=' + (__bd == null ? 'null' : Std.string(__bd.image != null))
 							+ ';txt=' + (__txt == null ? 'null' : Std.string(__txt.length))
 							+ ';rm=' + Std.string(FlxG.renderMethod);
-						js.Browser.window.fetch('/__diag?m=' + StringTools.urlEncode(__rep));
+						js.Browser.window.fetch('/__diag?n=' + __n + '&m=' + StringTools.urlEncode(__rep));
 					} catch (e:Dynamic) {}
 				} catch (e:Dynamic) {}
-			}, 4000);
+				if (__n < 3) haxe.Timer.delay(function() __sample(__n + 1), 7000);
+			};
+			haxe.Timer.delay(function() __sample(0), 5000);
 		} catch (e:Dynamic) {}
 		#end
 
