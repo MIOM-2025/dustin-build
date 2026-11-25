@@ -30,8 +30,9 @@ class Paths
 			__tries++;
 			try {
 				var tree = assetsTree;
-				if (tree != null && lime.utils.Assets.libraries != null) {
-					for (name in lime.utils.Assets.libraries.keys()) {
+				var __libs = @:privateAccess lime.utils.Assets.libraries;
+				if (tree != null && __libs != null) {
+					for (name in __libs.keys()) {
 						var l = lime.utils.Assets.getLibrary(name);
 						if (l != null && l != tree && tree.libraries.indexOf(l) < 0) {
 							tree.addLibrary(l);
