@@ -152,7 +152,7 @@
 
 	<source name="source" />
 
-	<define name="PRELOAD_ALL" unless="web" />
+	<define name="PRELOAD_ALL" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
 	<library name="assets"    preload="true"  if="PRELOAD_ALL"/>
