@@ -153,13 +153,13 @@
 	<source name="source" />
 
 	<define name="PRELOAD_ALL" unless="web" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL || web"/>
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
-	<library name="assets"    preload="true"  if="PRELOAD_ALL || web"/>
+	<library name="assets"    preload="true"  if="PRELOAD_ALL"/>
 	<library name="assets"    preload="false" if="NO_PRELOAD_ALL" />
 
 	<section unless="TEST_BUILD">
-		<assets path="assets/"    rename="assets"	exclude="*.ogg" if="web"/>
+		<assets path="assets/"    rename="assets"	embed="true" if="web"/>
 		<assets path="assets/"    rename="assets"	exclude="*.mp3" unless="web"/>
 
 		<!-- TODO: make it copy this manually, instead of using assets node, so it doesn't manually check for fonts -->
