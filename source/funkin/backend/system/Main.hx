@@ -88,25 +88,20 @@ class Main extends Sprite
 
 		framerateSprite = new Framerate();
 
+		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
+
 		#if web
-		var __launched:Bool = false;
-		var __launch = function() {
-			if (__launched) return;
-			__launched = true;
-			addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
-		};
 		var __tries:Int = 0;
 		var __poll:Void->Void = null;
 		__poll = function() {
-			if (__launched) return;
 			__tries++;
 			var __ok:Bool = false;
 			try { __ok = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png') != null; } catch (e:Dynamic) {}
-			if (__ok || __tries > 100) __launch() else haxe.Timer.delay(__poll, 100);
+			if (__ok) {
+				try { FlxG.bitmap.dumpCache(); FlxG.resetState(); trace('CNE_RELOAD assets ready'); } catch (e:Dynamic) {}
+			} else if (__tries < 300) haxe.Timer.delay(__poll, 200);
 		};
-		haxe.Timer.delay(__poll, 100);
-		#else
-		addChild(game = new FunkinGame(gameWidth, gameHeight, MainState, Options.framerate, Options.framerate, skipSplash, startFullscreen));
+		haxe.Timer.delay(__poll, 500);
 		#end
 
 		#if web
