@@ -90,10 +90,19 @@ class Main extends Sprite
 		try {
 			var __c = FlxG.stage.window.context;
 			var __bd = openfl.utils.Assets.getBitmapData('assets/images/menus/titlescreen/logo.png');
-			js.Browser.document.title = 'CNE ctx=' + (__c == null ? 'NULL' : Std.string(__c.type))
+			var __msg = 'ctx=' + (__c == null ? 'NULL' : Std.string(__c.type))
 				+ ' bd=' + (__bd == null ? 'null' : (__bd.width + 'x' + __bd.height))
 				+ ' tile=' + FlxG.renderTile + ' blit=' + FlxG.renderBlit;
-		} catch (e:Dynamic) { js.Browser.document.title = 'CNE diag err ' + e; }
+			var __doc = js.Browser.document;
+			var __div = __doc.getElementById('cne-diag');
+			if (__div == null) {
+				__div = __doc.createElement('div');
+				__div.id = 'cne-diag';
+				__div.style.cssText = 'position:fixed;top:0;left:0;z-index:999999;background:#000;color:#0f0;font:12px monospace;padding:2px 4px;pointer-events:none';
+				__doc.body.appendChild(__div);
+			}
+			__div.innerText = __msg;
+		} catch (e:Dynamic) {}
 		#end
 
 		framerateSprite = new Framerate();
