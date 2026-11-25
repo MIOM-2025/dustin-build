@@ -108,6 +108,14 @@ class Main extends Sprite
 						__doc.body.appendChild(__div);
 					}
 					__div.innerText = __msg;
+					try {
+						var __txt = openfl.utils.Assets.getText('assets/data/languages/en.xml');
+						var __rep = __msg
+							+ ';img=' + (__bd == null ? 'null' : Std.string(__bd.image != null))
+							+ ';txt=' + (__txt == null ? 'null' : Std.string(__txt.length))
+							+ ';rm=' + Std.string(FlxG.renderMethod);
+						js.Browser.window.fetch('/__diag?m=' + js.Browser.window.encodeURIComponent(__rep));
+					} catch (e:Dynamic) {}
 				} catch (e:Dynamic) {}
 			}, 4000);
 		} catch (e:Dynamic) {}
