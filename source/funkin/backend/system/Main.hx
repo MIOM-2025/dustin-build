@@ -92,7 +92,7 @@ class Main extends Sprite
 		var __lib = lime.utils.Assets.getLibrary('default');
 		var __ids:Array<String> = [];
 		if (__lib != null) {
-			try { for (__id in __lib.types.keys()) __ids.push(__id); } catch (e:Dynamic) {}
+			try { var __map = @:privateAccess __lib.types; for (__id in __map.keys()) __ids.push(__id); } catch (e:Dynamic) {}
 		}
 		var __pending:Int = __ids.length;
 		var __started:Bool = false;
@@ -110,13 +110,13 @@ class Main extends Sprite
 		} else {
 			for (__id in __ids) {
 				var __t:String = '';
-				try { __t = __lib.types.get(__id); } catch (e:Dynamic) {}
+				try { __t = @:privateAccess __lib.types.get(__id); } catch (e:Dynamic) {}
 				try {
 					switch (__t) {
-						case 'image': lime.utils.Assets.loadBitmapData(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'sound', 'music': lime.utils.Assets.loadSound(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'text', 'binary': lime.utils.Assets.loadText(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
-						case 'font': lime.utils.Assets.loadFont(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'image': openfl.utils.Assets.loadBitmapData(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'sound', 'music': openfl.utils.Assets.loadSound(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'text', 'binary': openfl.utils.Assets.loadText(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
+						case 'font': openfl.utils.Assets.loadFont(__id, true).onComplete(function(_) __one()).onError(function(_) __one());
 						default: __one();
 					}
 				} catch (e:Dynamic) { __one(); }
