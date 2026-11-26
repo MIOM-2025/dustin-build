@@ -484,14 +484,23 @@ class Alphabet extends FlxSprite {
 		return -1;
 	}
 
+	private static var __letterTraceCount:Int = 0;
+
 	function fastGetLetterAnim(char:String, data:AlphabetLetterData, component:AlphabetComponent, index:Int):FlxAnimation {
 		var name = char + Std.string(index);
 
 		var anim = (data.isDefault) ?
 			component.anim.replace("LOWERLETTER", char.toLowerCase()).replace("UPPERLETTER", char.toUpperCase()).replace("LETTER", char) :
 			component.anim;
+		if (__letterTraceCount < 12) {
+			__letterTraceCount++;
+			trace('CNE_LETTER char=' + char + ' force=' + forceCase + ' isDefault=' + data.isDefault + ' anim=' + anim + ' fps=' + fps);
+		}
 		animation.addByPrefix(name, anim, fps);
-		return animation.exists(name) ? animation.getByName(name) : null;
+		var __ok = animation.exists(name);
+		if (__ok) return animation.getByName(name);
+		if (__letterTraceCount < 12) trace('CNE_LETTER_MISS ' + anim);
+		return null;
 	}
 
 	function getLetterAnim(char:String, data:AlphabetLetterData, component:AlphabetComponent, index:Int):FlxAnimation {
