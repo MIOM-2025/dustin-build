@@ -524,7 +524,8 @@ class Alphabet extends FlxSprite {
 				}
 				sheets.push(sheet);
 			case "defaultAnim":
-				var idx = ["UPPER", "LOWER"].indexOf(node.get("casing").toUpperCase()) + 1;
+				var __casing = node.get("casing");
+				var idx = ["UPPER", "LOWER"].indexOf(__casing == null ? "UPPER" : __casing.toUpperCase()) + 1;
 
 				var angle:Float = Std.parseFloat(node.get("angle")).getDefaultFloat(0.0);
 				var rad = angle * FlxAngle.TO_RAD;
