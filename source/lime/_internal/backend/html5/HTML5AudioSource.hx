@@ -29,13 +29,46 @@ class HTML5AudioSource
 		stop();
 	}
 
-	public function init():Void {}
+	public function init():Void
+	{
+		#if lime_howlerjs
+		// The default Howl is created with preload:false, and nothing else kicks off
+		// the fetch. Without this the very first play() hits an unloaded Howl and
+		// silently returns null, which is why short sound effects were mute while
+		// music (which waits longer) still worked.
+		if (parent.buffer != null && parent.buffer.__srcHowl != null)
+		{
+			var h:Dynamic = parent.buffer.__srcHowl;
+			var st:Dynamic = untyped h.state();
+			if (st != "loaded" && st != "loading") untyped h.load();
+		}
+		#end
+	}
 
 	public function play():Void
 	{
 		#if lime_howlerjs
 		if (playing || parent.buffer == null || parent.buffer.__srcHowl == null)
 		{
+			return;
+		}
+
+		// If the Howl has not finished loading yet, queue the play once it is ready
+		// instead of dropping the sound silently.
+		var howl:Dynamic = parent.buffer.__srcHowl;
+		if (untyped howl.state() != "loaded")
+		{
+			var self = this;
+			if (Reflect.field(howl, "__cneWait") == null)
+			{
+				Reflect.setField(howl, "__cneWait", true);
+				untyped howl.once("load", function()
+				{
+					Reflect.setField(howl, "__cneWait", null);
+					self.play();
+				});
+				untyped howl.load();
+			}
 			return;
 		}
 
