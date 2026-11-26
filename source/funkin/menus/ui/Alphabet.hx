@@ -515,14 +515,27 @@ class Alphabet extends FlxSprite {
 	function checkNode(node:Xml):Void {
 		switch (node.nodeName) {
 			case "spritesheet":
-				final sheet = node.firstChild().nodeValue.trim();
-				if (frames == null)
-					frames = Paths.getFrames(sheet);
-				else {
-					for (frame in Paths.getFrames(sheet).frames)
-						frames.pushFrame(frame);
+				// On web the parser may hand back no child node, which used to yield an
+				// empty sheet name and silently kill every letter animation.
+				var __child = node.firstChild();
+				var sheet = __child == null ? "" : (__child.nodeValue == null ? "" : __child.nodeValue).trim();
+				if (sheet == "") {
+					for (__n in node) {
+						if (__n.nodeType == Xml.PCData || __n.nodeType == Xml.CData) sheet = (__n.nodeValue == null ? "" : __n.nodeValue).trim();
+						if (sheet != "") break;
+					}
 				}
-				sheets.push(sheet);
+				trace('CNE_SHEET "' + sheet + '" child=' + (__child == null ? 'null' : Std.string(__child.nodeType)));
+				if (sheet != "") {
+					if (frames == null)
+						frames = Paths.getFrames(sheet);
+					else {
+						var __f = Paths.getFrames(sheet);
+						if (__f != null) for (frame in __f.frames)
+							frames.pushFrame(frame);
+					}
+					sheets.push(sheet);
+				}
 			case "defaultAnim":
 				var __casing = node.get("casing");
 				var idx = ["UPPER", "LOWER"].indexOf(__casing == null ? "UPPER" : __casing.toUpperCase()) + 1;
