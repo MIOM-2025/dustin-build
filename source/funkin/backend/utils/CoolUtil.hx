@@ -462,17 +462,18 @@ final class CoolUtil
 
 	@:noUsing public static function playMenuSong(fadeIn:Bool = false) {
 		#if web
+		// Try to play right away. If the browser blocks autoplay, the catch below
+		// registers a one-shot gesture listener as a fallback.
 		if (!__webAudioUnlocked) {
+			__webAudioUnlocked = true;
 			if (!__webAudioWaiting) {
 				__webAudioWaiting = true;
 				try {
 					js.Browser.document.addEventListener('pointerdown', function() {
-						__webAudioUnlocked = true;
-						try { playMenuSong(fadeIn); } catch (e:Dynamic) {}
+						try { if (FlxG.sound.music == null || !FlxG.sound.music.playing) playMenuSong(fadeIn); } catch (e:Dynamic) {}
 					}, {once: true});
 				} catch (e:Dynamic) {}
 			}
-			return;
 		}
 		#end
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing)

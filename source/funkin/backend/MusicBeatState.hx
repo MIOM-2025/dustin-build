@@ -124,6 +124,17 @@ class MusicBeatState extends FlxState implements IBeatCancellableReceiver
 	inline function get_controlsP2():Controls
 		return PlayerSettings.player2.controls;
 		
+	#if (TOUCH_CONTROLS && web)
+	/** True when the browser runs on a phone/tablet. Desktop gets no touch UI. */
+	public static var isMobileUA:Bool = {
+		var v = false;
+		try {
+			v = ~/(android|iphone|ipad|ipod|mobile|harmonyos)/i.match(js.Browser.navigator.userAgent);
+		} catch (e:Dynamic) {}
+		v;
+	};
+	#end
+
 	#if TOUCH_CONTROLS
 	public var touchPad:TouchPad;
 	public var mobileControls:IMobileControls;
@@ -134,6 +145,9 @@ class MusicBeatState extends FlxState implements IBeatCancellableReceiver
 	public function addTouchPad(DPad:String, Action:String)
 	{
 		#if TOUCH_CONTROLS
+		#if web
+		if (!isMobileUA) return;
+		#end
 		touchPad = new TouchPad(DPad, Action);
 		add(touchPad);
 		#end
@@ -159,6 +173,9 @@ class MusicBeatState extends FlxState implements IBeatCancellableReceiver
 	public function addMobileControls(defaultDrawTarget:Bool = false):Void
 	{
 		#if TOUCH_CONTROLS
+		#if web
+		if (!isMobileUA) return;
+		#end
 		switch (MobileData.mode)
 		{
 			case 0: // RIGHT_FULL
