@@ -204,7 +204,8 @@ class Main extends Sprite
 		#if web
 		if (__realLib != null && __realLib != lib) {
 			Assets.registerLibrary('cne_assets', __realLib);
-			Paths.assetsTree.addLibrary(cast __realLib);
+			var __arr:Dynamic = Reflect.field(Paths.assetsTree, "libraries");
+			if (__arr != null) __arr.unshift(__realLib);
 			trace('CNE_REAL_LIB attached');
 		}
 		#end
