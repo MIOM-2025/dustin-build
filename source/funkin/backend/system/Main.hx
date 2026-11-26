@@ -190,10 +190,24 @@ class Main extends Sprite
 		funkin.backend.scripting.GlobalScript.init();
 		#end
 
+		#if web
+		// Web: openfl already registered the real manifest library as "default".
+		// Grab it BEFORE the proxy library overwrites (and unloads) it.
+		var __realLib = Assets.getLibrary('default');
+		#end
+
 		var lib = new AssetLibrary();
 		@:privateAccess
 		lib.__proxy = Paths.assetsTree;
 		Assets.registerLibrary('default', lib);
+
+		#if web
+		if (__realLib != null && __realLib != lib) {
+			Assets.registerLibrary('cne_assets', __realLib);
+			Paths.assetsTree.addLibrary(__realLib);
+			trace('CNE_REAL_LIB attached');
+		}
+		#end
 
 		funkin.options.PlayerSettings.init();
 		Options.load();
