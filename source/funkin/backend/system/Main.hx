@@ -198,11 +198,12 @@ class Main extends Sprite
 		// Web: openfl already parsed the manifest and registered the real library as
 		// "default". Assets.registerLibrary would unload it (wiping the manifest data),
 		// so swap the pointer by hand and hand the real library to the asset tree.
-		var __realLib:Dynamic = @:privateAccess lime.utils.Assets.libraries.h['default'];
+		var __map = @:privateAccess lime.utils.Assets.libraries;
+		var __realLib:Dynamic = __map.get('default');
 		if (__realLib != null && __realLib != lib) {
 			var __arr:Dynamic = Reflect.field(Paths.assetsTree, "libraries");
 			if (__arr != null) __arr.unshift(__realLib);
-			@:privateAccess lime.utils.Assets.libraries.h['default'] = lib;
+			__map.set('default', lib);
 			trace('CNE_REAL_LIB attached');
 		} else {
 			Assets.registerLibrary('default', lib);
