@@ -21,33 +21,6 @@ class Paths
 		FlxG.signals.preStateSwitch.add(function() {
 			tempFramesCache.clear();
 		});
-		#if web
-		// Web: the asset tree is built before lime registers its libraries, so its base is null.
-		// Attach every real lime library once available.
-		var __attach:Void->Void = null;
-		var __tries:Int = 0;
-		__attach = function() {
-			__tries++;
-			try {
-				var tree = assetsTree;
-				var __libs = @:privateAccess lime.utils.Assets.libraries;
-				if (tree != null && __libs != null) {
-					for (name in __libs.keys()) {
-						var l = lime.utils.Assets.getLibrary(name);
-						if (l != null && l != tree && tree.libraries.indexOf(l) < 0) {
-							// Never attach a library whose proxy points back at this tree (infinite recursion)
-							var __proxy:Dynamic = Reflect.field(l, "__proxy");
-							if (__proxy == tree || __proxy == null && l == tree.base) continue;
-							tree.addLibrary(l);
-							trace('CNE_ATTACH ' + name);
-						}
-					}
-				}
-			} catch (e:Dynamic) { trace('CNE_ATTACH_ERR ' + e); }
-			if (__tries < 40) haxe.Timer.delay(__attach, 250);
-		};
-		haxe.Timer.delay(__attach, 250);
-		#end
 	}
 
 	public static inline function getPath(file:String, ?library:String) {
