@@ -36,7 +36,7 @@ class Paths
 						var l = lime.utils.Assets.getLibrary(name);
 						if (l != null && l != tree && tree.libraries.indexOf(l) < 0) {
 							// Never attach a library whose proxy points back at this tree (infinite recursion)
-							var __proxy = @:privateAccess l.__proxy;
+							var __proxy:Dynamic = Reflect.field(l, "__proxy");
 							if (__proxy == tree || __proxy == null && l == tree.base) continue;
 							tree.addLibrary(l);
 							trace('CNE_ATTACH ' + name);
