@@ -546,8 +546,10 @@ class Alphabet extends FlxSprite {
 					sheets.push(sheet);
 				}
 			case "defaultAnim":
+				// No casing attribute means this is the generic default (CaseMode.NONE).
+				// Beware: an empty string also maps to NONE, which is what desktop parsing yields.
 				var __casing = node.get("casing");
-				var idx = ["UPPER", "LOWER"].indexOf(__casing == null ? "UPPER" : __casing.toUpperCase()) + 1;
+				var idx = ["UPPER", "LOWER"].indexOf(__casing == null ? "" : __casing.toUpperCase()) + 1;
 
 				var angle:Float = Std.parseFloat(node.get("angle")).getDefaultFloat(0.0);
 				var rad = angle * FlxAngle.TO_RAD;
