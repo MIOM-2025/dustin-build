@@ -137,7 +137,7 @@ jobs:
           fi
 
       - name: Build HTML5
-        run: haxelib run lime build html5
+        run: haxelib run lime build html5 -D disable_webgl
 
       - name: Show output
         if: always()
